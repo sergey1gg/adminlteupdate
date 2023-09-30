@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { serviceAdd, serviceAddSimple, serviceDel, serviceStart } from '../../actions/service-api'
 import { HardParam } from './HardParam'
 import {AddHardModal} from "./AddHardModal"
 import { FinishModal } from './FinishModal'
 
 export const ServiceStart = () => {
+  const navigate=useNavigate()
     const [serviceData, setServiceData]=useState()
     const [selectMore, setSelectMore]=useState([])
     const {id}=useParams()
@@ -15,6 +16,7 @@ export const ServiceStart = () => {
     const [hardData, setHardData]=useState()
     const [addModal, setAddModal]=useState({})
     const [finish, setFinish]=useState()
+    const [hardSuccess, setHardSuccess]= useState()
   const handleCheckboxChange = (type, item) => {
     if (type ===0 ){
       if( !checkboxes[item.step_id]){
@@ -24,16 +26,24 @@ export const ServiceStart = () => {
 
       }
       else{
-        serviceDel(serviceData[0]?.service_id, item.step_id).then((res)=>{
-          serviceStart(id, setServiceData)
-        })
+        serviceData[0].items.forEach((elem) => {
+          if (elem.step_id === item.step_id) {
+            serviceDel(elem.id).then((res)=>{
+              serviceStart(id, setServiceData)
+            })
+
+          }
+        });
+
 
       }
 
 }   else{
+  if( checkboxes[item.step_id]){
   return(
     setAddModal({param: true, id: serviceData[0]?.service_id, item, type})
   )
+  } 
 }
   };
   const handleSetHardItem=(type, actionList, item)=>{
@@ -53,7 +63,7 @@ export const ServiceStart = () => {
             }
           };
           fetchService();    
-    },[id, setServiceData])
+    },[id, setServiceData, hardSuccess])
     useEffect(()=>{
       const fetchService = async () => {
           try {
@@ -109,6 +119,7 @@ export const ServiceStart = () => {
       const sortedSettings = sortAndGroupSettingsByGroupId(serviceData && serviceData[0]?.settings ? serviceData: null );
    
       const currentDate = new Date();
+      console.log(serviceData)
   return (
 
  <div className="content-wrapper">
@@ -181,9 +192,13 @@ export const ServiceStart = () => {
 
     </div>
             
-            ): <HardParam id={id} actionList={actionList} setHardParam={setHardParam} hardData={hardData} service_id={serviceData[0]?.service_id}/>}
+            ): <HardParam id={id} actionList={actionList} setHardParam={setHardParam} hardData={hardData} service_id={serviceData[0]?.service_id} setHardSuccess={setHardSuccess}/>}
   </div>
-  {!hardParam && <button type="button" className="btn btn-primary" data-toggle="modal" data-target='#exampleModal2' onClick={()=> setFinish(true)}>Завершить</button>} 
+  {!hardParam && 
+  <>
+  <button type="button" className="btn btn-primary" data-toggle="modal" data-target='#exampleModal2' onClick={()=> setFinish(true)}>Завершить</button>
+  <button type="button" className="btn btn-secondary ml-2"onClick={()=> navigate("/service")}>Назад</button>
+  </>} 
 </div>
        {/* /.col */}
      </div>

@@ -41,42 +41,24 @@ export const serviceAction = async(id, action_id) => {
 
 export const serviceAdd = async(photo_file, service_id, group_id, item_id, item_step, operation, value_desc, value, description) => {
   try {
-    const formData = new FormData();
-    formData.append('photo_file', photo_file);
-    formData.append('service_id', service_id);
-    formData.append('group_id', group_id);
-    formData.append('item_id', item_id);
-    formData.append('item_step', item_step);
-    formData.append('operation', operation);
-    formData.append('value_desc', value_desc);
-    formData.append('value', value);
-    formData.append('description', description);
-    const response = await axios.post(`https://app.robottod.ru:9007/service/add_item`,formData, 
+  
+    const response = await axios.post(`https://app.robottod.ru:9007/service/add_item`,{service_id: service_id, group_id: group_id, item_id: item_id,
+     item_step: item_step, operation: operation, description: description, value_desc: value_desc, value: value, photo_file: photo_file}, 
       {
         headers: {
-          'Content-Type': 'multipart/form-data',
           Authorization: `Bearer ${localStorage.getItem('access_token')}`
         }
       })
-    alert (response.data.data)
+   return response.data.data
   } catch (error) {
     console.log(error);
   }
 };
 export const serviceAddSimple = async(service_id, group_id, item_id, item_step, operation, description) => {
-  try {
-    const formData = new FormData();
-    formData.append('service_id', service_id);
-    formData.append('group_id', group_id);
-    formData.append('item_id', item_id);
-    formData.append('item_step', item_step);
-    formData.append('operation', operation);
-    formData.append('description', description);
-    
-    const response = await axios.post(`https://app.robottod.ru:9007/service/add_item`,formData, 
+  try {    
+    const response = await axios.post(`https://app.robottod.ru:9007/service/add_item`,{service_id: service_id, group_id: group_id, item_id: item_id, item_step: item_step, operation: operation, description: description}, 
       {
         headers: {
-          'Content-Type': 'multipart/form-data',
           Authorization: `Bearer ${localStorage.getItem('access_token')}`
         }
       })
@@ -85,9 +67,9 @@ export const serviceAddSimple = async(service_id, group_id, item_id, item_step, 
     console.log(error);
   }
 };
-export const serviceDel = async(service_id, step_id) => {
+export const serviceDel = async(step_id) => {
   try {
-    const response = await axios.post(`https://app.robottod.ru:9007/service/del_item`,{service_id: service_id, step_id: step_id}, 
+    const response = await axios.post(`https://app.robottod.ru:9007/service/del_item`,{step_id: step_id}, 
     {
       headers: { Authorization: `Bearer ${localStorage.getItem('access_token')}` }
     })
@@ -103,8 +85,7 @@ export const serviceFinish = async(service_id, comment) => {
     {
       headers: { Authorization: `Bearer ${localStorage.getItem('access_token')}` }
     })
-    debugger
-    return response.data.data
+    window.location.reload()
   } catch (error) {
     console.log(error);
   }

@@ -1,13 +1,17 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { serviceAction, serviceActions, serviceAdd } from '../../actions/service-api'
+import Webcam from "react-webcam";
+
 const formData = new FormData();
-export const HardParam = ({id, actionList ,setHardParam, hardData, service_id}) => {
+export const HardParam = ({id, actionList ,setHardParam, hardData, service_id ,setHardSuccess}) => {
  
   const [actionsData, setActionsData]=useState([])
   
+  const [capturingPhoto, setCapturingPhoto] = useState(false);
   const [valueInput, setValueInput]=useState(hardData?.value ? hardData.value : '')
-  const [photoPreview, setPhotoPreview] = useState('');
+
   const photoInputRef = useRef(null);
+  const [imgSrc, setImgSrc] = useState(null)
   useEffect(()=>{
     const fetchService = async (id, item) => {
       try {
@@ -24,28 +28,13 @@ export const HardParam = ({id, actionList ,setHardParam, hardData, service_id}) 
     })
   }
   },[])
-  const handlePhotoInputChange = (e) => {
-    const file = e.target.files[0];
-    if (file && file.type.startsWith('image/')) {
-
-      const reader = new FileReader();
-      
-      formData.append('file', file);
-      
-      reader.onload = function (e) {
-
-      setPhotoPreview(e.target.result);
-      };
-
-      reader.readAsDataURL(file);
-    }
-  };
 
   const handlePhotoPreviewClick = () => {
     if (photoInputRef.current) {
       photoInputRef.current.click();
     }
   };
+ 
   return (
     <div>
        <div className="container mt-4">
@@ -61,6 +50,7 @@ export const HardParam = ({id, actionList ,setHardParam, hardData, service_id}) 
           
           <div className="custom-file">
       
+      {/*
       <img
         src={photoPreview}
         alt=""
@@ -92,6 +82,21 @@ export const HardParam = ({id, actionList ,setHardParam, hardData, service_id}) 
       </button>
 }
     </div>
+    */}
+    {imgSrc ?( 
+      <>
+    <img src={imgSrc} className='img-fluid' />
+    <button className="btn btn-primary" onClick={()=> {setImgSrc(); setCapturingPhoto(true)}}>Переснять</button>
+      </>
+    ):(
+          <button
+        type="button"
+        className="btn btn-success"
+        onClick={()=>  setCapturingPhoto(true)}
+      >
+        Фото
+      </button>
+    )}
     </div>
         </div>
           
@@ -134,7 +139,8 @@ export const HardParam = ({id, actionList ,setHardParam, hardData, service_id}) 
             <button
               type="button"
               className="btn btn-success"
-              onClick={()=> serviceAdd(formData.get("file"), service_id, hardData.group_id, hardData.step_id, hardData.step_num, hardData.operation, hardData.description, valueInput, hardData.description)}
+              onClick={()=> serviceAdd(imgSrc, service_id, hardData.group_id, hardData.step_id, hardData.step_num, hardData.operation, hardData.description, valueInput, hardData.description)
+            .then(()=>setHardParam(false)).then(()=>setHardSuccess(true))}
             >
               Готово
             </button>
@@ -142,6 +148,7 @@ export const HardParam = ({id, actionList ,setHardParam, hardData, service_id}) 
         </div>
       </div>
     </div>
+    {capturingPhoto && <WebcamComponent imgSrc={imgSrc} setImgSrc={setImgSrc} setCapturingPhoto={setCapturingPhoto}/>}
     </div>
   )
 }
@@ -253,3 +260,44 @@ const ActionButtons = ({id, commands}) => {
     </div>
   );
 }
+
+
+
+  const WebcamComponent = ({imgSrc, setImgSrc, setCapturingPhoto}) => {
+    const videoConstraints = {
+      facingMode: "environment"
+    };
+    
+    const webcamRef = useRef(null);
+   
+    const capture = useCallback(() => {
+      try{
+  
+      const imageSrc = webcamRef.current.getScreenshot();
+      setImgSrc(imageSrc);
+      setCapturingPhoto(false)
+      }
+      catch(e){
+        alert(e)
+      }
+    }, [webcamRef]);
+    const retake = () => {
+      setImgSrc(null);
+    };
+  
+    return (
+  <div className="bg-black" style={{position: 'absolute', zIndex: '10', top: 0, width: '100%'}}>
+
+        {imgSrc ? (
+          <img src={imgSrc} alt="webcam" />
+        ) : (
+          <Webcam  ref={webcamRef} videoConstraints={videoConstraints}  style={{ width: '100%', zIndex: '20' }} />
+        )}
+                
+      <div className="btn-container d-flex justify-content-center bg-black py-2">
+          <button className='btn btn-success' onClick={capture}>Фото</button>
+          <button className='btn btn-danger' onClick={()=> setCapturingPhoto(false)}>Закрыть</button>
+      </div>
+      </div>
+    )
+  };

@@ -41,9 +41,22 @@ export const serviceAction = async(id, action_id) => {
 
 export const serviceAdd = async(photo_file, service_id, group_id, item_id, item_step, operation, value_desc, value, description) => {
   try {
-  
-    const response = await axios.post(`https://app.robottod.ru:9007/service/add_item`,{service_id: service_id, group_id: group_id, item_id: item_id,
-     item_step: item_step, operation: operation, description: description, value_desc: value_desc, value: value, photo_file: photo_file}, 
+    const requestData = {
+      service_id: service_id,
+      group_id: group_id,
+      item_id: item_id,
+      item_step: item_step,
+      operation: operation,
+      description: description,
+      value_desc: value_desc,
+    };
+    if (photo_file !== null) {
+      requestData.photo_file = photo_file;
+    }
+    if (value !== "") {
+      requestData.value = value;
+    }
+    const response = await axios.post(`https://app.robottod.ru:9007/service/add_item`,requestData, 
       {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('access_token')}`

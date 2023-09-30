@@ -140,7 +140,7 @@ export const HardParam = ({id, actionList ,setHardParam, hardData, service_id ,s
               type="button"
               className="btn btn-success"
               onClick={()=> serviceAdd(imgSrc, service_id, hardData.group_id, hardData.step_id, hardData.step_num, hardData.operation, hardData.description, valueInput, hardData.description)
-            .then(()=>setHardParam(false)).then(()=>setHardSuccess(true))}
+            .then(()=>setHardParam(false)).finally(()=>setHardSuccess(true))}
             >
               Готово
             </button>

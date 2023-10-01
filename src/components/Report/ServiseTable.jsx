@@ -17,7 +17,7 @@ export const ServiseTable = ({selectedTable}) => {
     console.log(serviceTableData)
   return (
    <>
-   <h3>Service id- {serviceTableData && serviceTableData[0]?.service_id}, operation - {serviceTableData && serviceTableData[0]?.operation}</h3>
+   <h3>Service id- {selectedTable?.id}, operation - {selectedTable?.user}</h3>
 <table id="example1" className="table table-bordered table-striped">
                       <thead>
                         <tr>
@@ -39,7 +39,7 @@ export const ServiseTable = ({selectedTable}) => {
                         <td>{item.description}</td>
                         <td>{item.value_desc}</td>
                         <td>{item.value}</td>
-                        <td> <a href={item.photo_file} target="_blank">{item.photo_file}</a></td>
+                        <td> <a href={item.photo_file} target="_blank">{item?.photo_file?.split("/")[item?.photo_file?.split("/").length-1]}</a></td>
                       </tr>
                      ))}
                       </tbody>

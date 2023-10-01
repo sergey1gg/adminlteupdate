@@ -89,12 +89,12 @@ const handleReport =()=>{
                       <tr key={index}>
                         <td className={item.comment? "bg-danger" : ''}
                         onClick={()=> setSelectedComment(item.comment)} data-toggle="modal" data-target="#exampleModal3">{item.service_id}</td>
-                        <td onClick={()=> setSelectedTable({step:2, service_id: item.service_id})}>{item.kiosk_name}</td>
-                        <td onClick={()=> setSelectedTable({step:2, service_id: item.service_id})}>{item.Address}</td>
-                        <td onClick={()=> setSelectedTable({step:2, service_id: item.service_id})}>{new Date(item.data_start).toLocaleString()}</td>
-                        <td onClick={()=> setSelectedTable({step:2, service_id: item.service_id})}>{new Date(item.data_finish).toLocaleString()}</td>
-                        <td onClick={()=> setSelectedTable({step:2, service_id: item.service_id})}>{item.user_id}</td>
-                        <td onClick={()=> setSelectedTable({step:2, service_id: item.service_id})}>{item.user_name}</td>
+                        <td onClick={()=> setSelectedTable({step:2, service_id: item.service_id, user:item.user_name, id: item.service_id})}>{item.kiosk_name}</td>
+                        <td onClick={()=> setSelectedTable({step:2, service_id: item.service_id, user:item.user_name, id: item.service_id})}>{item.Address}</td>
+                        <td onClick={()=> setSelectedTable({step:2, service_id: item.service_id, user:item.user_name, id: item.service_id})}>{new Date(item.data_start).toLocaleString()}</td>
+                        <td onClick={()=> setSelectedTable({step:2, service_id: item.service_id, user:item.user_name, id: item.service_id})}>{new Date(item.data_finish).toLocaleString()}</td>
+                        <td onClick={()=> setSelectedTable({step:2, service_id: item.service_id, user:item.user_name, id: item.service_id})}>{item.user_id}</td>
+                        <td onClick={()=> setSelectedTable({step:2, service_id: item.service_id, user:item.user_name, id: item.service_id})}>{item.user_name}</td>
                       </tr>
                      ))}
                       </tbody>

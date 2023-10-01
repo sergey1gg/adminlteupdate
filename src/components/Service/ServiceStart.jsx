@@ -59,7 +59,7 @@ export const ServiceStart = () => {
         const fetchService = async () => {
             try {
               const response = await serviceStart(id,setServiceData);
-              
+              setHardSuccess(false)
             } catch (error) {
               alert(error);
             }
@@ -69,8 +69,8 @@ export const ServiceStart = () => {
     useEffect(()=>{
       const fetchService = async () => {
           try {
-             sortCheckBoxes(serviceData && serviceData[0]?.settings ? serviceData: null).then((updatedCheckboxes) => { 
-              setCheckboxes(updatedCheckboxes)});
+             const updatedCheckboxes =sortCheckBoxes(serviceData && serviceData[0]?.settings ? serviceData: null) 
+              setCheckboxes(updatedCheckboxes);
           } catch (error) {
             alert(error);
           }
@@ -96,7 +96,7 @@ export const ServiceStart = () => {
       }
       return [];
     };
-    const sortCheckBoxes =async (settings) => {
+    const sortCheckBoxes =(settings) => {
       if (settings) {
        
         const matchingStepIds = []; 
@@ -121,7 +121,6 @@ export const ServiceStart = () => {
       const sortedSettings = sortAndGroupSettingsByGroupId(serviceData && serviceData[0]?.settings ? serviceData: null );
    
       const currentDate = new Date();
-      console.log(serviceData)
   return (
 
  <div className="content-wrapper">

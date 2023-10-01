@@ -1,8 +1,10 @@
 import axios from "axios";
 
+
+const server=process.env.REACT_APP_SERVER_URL;
 export const reportGet = async(from, to) => {
     try {
-      const response = await axios.get(`https://app.robottod.ru:9007/service/report?from=${from}&to=${to}`,
+      const response = await axios.get(`${server}/service/report?from=${from}&to=${to}`,
       {
         headers: { Authorization: `Bearer ${localStorage.getItem('access_token')}` }
       })
@@ -14,7 +16,7 @@ export const reportGet = async(from, to) => {
   
 export const reportItem = async(service_id) => {
     try {
-      const response = await axios.get(`https://app.robottod.ru:9007/service/report_item?service_id=${service_id}`,
+      const response = await axios.get(`${server}/service/report_item?service_id=${service_id}`,
       {
         headers: { Authorization: `Bearer ${localStorage.getItem('access_token')}` }
       })

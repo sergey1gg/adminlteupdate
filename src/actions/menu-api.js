@@ -1,10 +1,12 @@
 import axios from 'axios'
 import { setDependens, setGroup, setMenu, setProduct } from '../reducers/menuReducer';
 
+const server=process.env.REACT_APP_SERVER_URL;
+
 export const menuList = () => {
   return async dispatch => {
     try {
-      const response = await axios.get("https://urc.zone:9007/kiosk/menu_list",
+      const response = await axios.get(`${server}/kiosk/menu_list`,
         {
           headers: { Authorization: `Bearer ${localStorage.getItem('access_token')}` }
         })
@@ -17,7 +19,7 @@ export const menuList = () => {
 export const editMenu = (id,name,active) => {
   return async dispatch => {
     try {
-      const response = await axios.post("https://urc.zone:9007/kiosk/menu_list",{id,name,active},
+      const response = await axios.post(`${server}/kiosk/menu_list`,{id,name,active},
         {
           headers: { Authorization: `Bearer ${localStorage.getItem('access_token')}` }
         })
@@ -32,7 +34,7 @@ export const editMenu = (id,name,active) => {
 export const groupList = (menuId) => {
   return async dispatch => {
     try {
-      const response = await axios.get(`https://urc.zone:9007/kiosk/menu_group?id=${menuId}`,
+      const response = await axios.get(`${server}/kiosk/menu_group?id=${menuId}`,
         {
           headers: { Authorization: `Bearer ${localStorage.getItem('access_token')}` }
         })
@@ -46,7 +48,7 @@ export const groupList = (menuId) => {
 export const editGroup = (id,menu,name,active,picture,note) => {
   return async dispatch => {
     try {
-      const response = await axios.post(`https://urc.zone:9007/kiosk/menu_group`,{id,menu,name,active,picture,note},
+      const response = await axios.post(`${server}/kiosk/menu_group`,{id,menu,name,active,picture,note},
         {
           headers: { Authorization: `Bearer ${localStorage.getItem('access_token')}` }
         })
@@ -59,7 +61,7 @@ export const editGroup = (id,menu,name,active,picture,note) => {
 export const productList = (groupId) => {
   return async dispatch => {
     try {
-      const response = await axios.get(`https://urc.zone:9007/kiosk/menu_product_addition?id=${groupId}`,
+      const response = await axios.get(`${server}/kiosk/menu_product_addition?id=${groupId}`,
         {
           headers: { Authorization: `Bearer ${localStorage.getItem('access_token')}` }
         })
@@ -72,7 +74,7 @@ export const productList = (groupId) => {
 export const editProduct = (id,group,name,note,tovar,picture,price,active) => {
   return async dispatch => {
     try {
-      const response = await axios.post(`https://urc.zone:9007/kiosk/menu_product_addition`,{id,group,name,note,tovar,picture,price,active},
+      const response = await axios.post(`${server}/kiosk/menu_product_addition`,{id,group,name,note,tovar,picture,price,active},
         {
           headers: { Authorization: `Bearer ${localStorage.getItem('access_token')}` }
         })
@@ -86,7 +88,7 @@ export const editProduct = (id,group,name,note,tovar,picture,price,active) => {
 export const dependensList = (productId) => {
   return async dispatch => {
     try {
-      const response = await axios.get(`https://urc.zone:9007/kiosk/menu_product_addition?id=${productId}`,
+      const response = await axios.get(`${server}/kiosk/menu_product_addition?id=${productId}`,
         {
           headers: { Authorization: `Bearer ${localStorage.getItem('access_token')}` }
         })
@@ -100,7 +102,7 @@ export const dependensList = (productId) => {
 export const editDependens = (id,group,name,note,tovar,picture,price,active) => {
   return async dispatch => {
     try {
-     const response = await axios.post(`https://urc.zone:9007/kiosk/menu_product_addition`,{id,group,name,note,tovar,picture,price,active},
+     const response = await axios.post(`${server}/kiosk/menu_product_addition`,{id,group,name,note,tovar,picture,price,active},
         {
           headers: { Authorization: `Bearer ${localStorage.getItem('access_token')}` }
         })

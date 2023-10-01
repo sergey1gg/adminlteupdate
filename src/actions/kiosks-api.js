@@ -1,10 +1,14 @@
 import axios from 'axios'
 import { setActions, setKiosks, setOrders, setHistory } from '../reducers/toolkitReducer';
 
+
+const server=process.env.REACT_APP_SERVER_URL;
+
+
 export const kiosksList = () => {
   return async dispatch => {
     try {
-      const response = await axios.get("https://urc.zone:9007/kiosk/list",
+      const response = await axios.get(`${server}/kiosk/list`,
         {
           headers: { Authorization: `Bearer ${localStorage.getItem('access_token')}` }
         })
@@ -17,7 +21,7 @@ export const kiosksList = () => {
 export const switchChange = (kiosk_id,open) => {
   return async dispatch => {
     try {
-      const response = await axios.post("https://urc.zone:9007/kiosk/open_close",{kiosk_id,open},
+      const response = await axios.post(`${server}/kiosk/open_close`,{kiosk_id,open},
         {
           headers: { Authorization: `Bearer ${localStorage.getItem('access_token')}` }
         })
@@ -33,7 +37,7 @@ export const switchChange = (kiosk_id,open) => {
 export const getActions = (kioskId) => {
   return async dispatch => {
     try {
-      const response = await axios.get(`https://urc.zone:9007/kiosk/action?kiosk_id=${kioskId}`,
+      const response = await axios.get(`${server}/kiosk/action?kiosk_id=${kioskId}`,
         {
           headers: { Authorization: `Bearer ${localStorage.getItem('access_token')}` }
         })
@@ -48,7 +52,7 @@ export const postActions = (kiosk_id, machine_id, type_name, machine_name, actio
   const params = customParams !== undefined ? customParams : null;
   return async dispatch => {
    try {
-     const response = await axios.post(`https://urc.zone:9007/kiosk/action`, { kiosk_id, machine_id, type_name, machine_name, action_id, action_name, params },
+     const response = await axios.post(`${server}/kiosk/action`, { kiosk_id, machine_id, type_name, machine_name, action_id, action_name, params },
         {
          headers: { Authorization: `Bearer ${localStorage.getItem('access_token')}` }
         })
@@ -62,7 +66,7 @@ export const postActions = (kiosk_id, machine_id, type_name, machine_name, actio
 export const getOrders = (kiosk_id) => {
   return async (dispatch) => {
     try {
-      const response = await axios.get(`https://urc.zone:9007/kiosk/orders?kiosk_id=${kiosk_id}`, {
+      const response = await axios.get(`${server}/kiosk/orders?kiosk_id=${kiosk_id}`, {
         headers: { Authorization: `Bearer ${localStorage.getItem('access_token')}` },
       });
 
@@ -91,7 +95,7 @@ export const getOrders = (kiosk_id) => {
 export const getHistory = (order_id) => {
   return async dispatch => {
     try {
-      const response = await axios.get(`https://urc.zone:9007/kiosk/order?order_id=${order_id}`,
+      const response = await axios.get(`${server}/kiosk/order?order_id=${order_id}`,
         {
           headers: { Authorization: `Bearer ${localStorage.getItem('access_token')}` }
         })
@@ -105,7 +109,7 @@ export const getHistory = (order_id) => {
 export const returnPay = (data) => {
   return async dispatch => {
     try {
-      const response = await axios.post(`https://urc.zone:9007/kiosk/action`,{kiosk_id:data[0],machine_id:data[1],
+      const response = await axios.post(`${server}/kiosk/action`,{kiosk_id:data[0],machine_id:data[1],
     machine_name:data[2],action_id:data[3],action_name:data[4],params:data[5]},
         {
           headers: { Authorization: `Bearer ${localStorage.getItem('access_token')}` }

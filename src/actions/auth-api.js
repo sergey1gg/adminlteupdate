@@ -1,10 +1,14 @@
 import axios from 'axios'
 import { setAuth } from '../reducers/toolkitReducer';
 
+
+const serverUrl=process.env.REACT_APP_SERVER_URL;
+
+
 export const login = async (phone, password) => {
     try {
       const response = await axios.post(
-        'https://urc.zone:9007/customer/login',
+        `${serverUrl}/customer/login`,
         {
           phone,
           password,
@@ -23,8 +27,8 @@ export const login = async (phone, password) => {
       const refresh_token = localStorage.getItem('refresh_token');
       
       if (refresh_token) {
-        // Используем refresh токен для получения новой пары токенов
-        const response = await axios.post('https://urc.zone:9007/customer/refresh_tocken', {
+
+        const response = await axios.post(`${serverUrl}/customer/refresh_tocken`, {
           refresh_token,
         });
   

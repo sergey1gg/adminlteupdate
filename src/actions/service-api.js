@@ -1,8 +1,9 @@
 import axios from "axios";
 
+const server=process.env.REACT_APP_SERVER_URL;
 export const serviceList = async() => {
       try {
-        const response = await axios.get("https://app.robottod.ru:9007/service/list",
+        const response = await axios.get(`${server}/service/list`,
           {
             headers: { Authorization: `Bearer ${localStorage.getItem('access_token')}` }
           })
@@ -14,7 +15,7 @@ export const serviceList = async() => {
   
 export const serviceStart = async(id, setServiceData) => {
     try {
-      const response = await axios.post("https://app.robottod.ru:9007/service/start", {kiosk_id:id},
+      const response = await axios.post(`${server}/service/start`, {kiosk_id:id},
         {
           headers: { Authorization: `Bearer ${localStorage.getItem('access_token')}` }
         })
@@ -27,7 +28,7 @@ export const serviceStart = async(id, setServiceData) => {
 
 export const serviceAction = async(id, action_id) => {
   try {
-    const response = await axios.get(`https://app.robottod.ru:9007/service/action?kiosk_id=${id}&machin_type=${action_id}`, 
+    const response = await axios.get(`${server}/service/action?kiosk_id=${id}&machin_type=${action_id}`, 
       {
         headers: { Authorization: `Bearer ${localStorage.getItem('access_token')}` }
       })
@@ -50,13 +51,21 @@ export const serviceAdd = async(photo_file, service_id, group_id, item_id, item_
       description: description,
       value_desc: value_desc,
     };
-    if (photo_file !== null) {
+    function isBase64(str) {
+      const base64Regex = /^(data:image\/[a-zA-Z]*;base64,)/;
+    
+      return base64Regex.test(str);
+    }
+
+    if (photo_file !== null && isBase64(photo_file)) {
       requestData.photo_file = photo_file;
+    } else {
+      alert('Invalid Base64 format for photo_file');
     }
     if (value !== "") {
       requestData.value = value;
     }
-    const response = await axios.post(`https://app.robottod.ru:9007/service/add_item`,requestData, 
+    const response = await axios.post(`${server}/service/add_item`,requestData, 
       {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('access_token')}`
@@ -69,7 +78,7 @@ export const serviceAdd = async(photo_file, service_id, group_id, item_id, item_
 };
 export const serviceAddSimple = async(service_id, group_id, item_id, item_step, operation, description) => {
   try {    
-    const response = await axios.post(`https://app.robottod.ru:9007/service/add_item`,{service_id: service_id, group_id: group_id, item_id: item_id, item_step: item_step, operation: operation, description: description}, 
+    const response = await axios.post(`${server}/service/add_item`,{service_id: service_id, group_id: group_id, item_id: item_id, item_step: item_step, operation: operation, description: description}, 
       {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('access_token')}`
@@ -82,7 +91,7 @@ export const serviceAddSimple = async(service_id, group_id, item_id, item_step, 
 };
 export const serviceDel = async(step_id) => {
   try {
-    const response = await axios.post(`https://app.robottod.ru:9007/service/del_item`,{step_id: step_id}, 
+    const response = await axios.post(`${server}/service/del_item`,{step_id: step_id}, 
     {
       headers: { Authorization: `Bearer ${localStorage.getItem('access_token')}` }
     })
@@ -94,7 +103,7 @@ export const serviceDel = async(step_id) => {
 
 export const serviceFinish = async(service_id, comment) => {
   try {
-    const response = await axios.post(`https://app.robottod.ru:9007/service/finish`,{service_id: service_id, comment: comment}, 
+    const response = await axios.post(`${server}/service/finish`,{service_id: service_id, comment: comment}, 
     {
       headers: { Authorization: `Bearer ${localStorage.getItem('access_token')}` }
     })
@@ -106,7 +115,7 @@ export const serviceFinish = async(service_id, comment) => {
 export const serviceActions = async(kiosk_id, machine_id, type_name, machine_name, action_id, action_name, customParams) => {
   const params = customParams !== undefined ? customParams : null;
    try {
-     const response = await axios.post(`https://urc.zone:9007/kiosk/action`, { kiosk_id, machine_id, type_name, machine_name, action_id, action_name, params },
+     const response = await axios.post(`${server}/kiosk/action`, { kiosk_id, machine_id, type_name, machine_name, action_id, action_name, params },
         {
          headers: { Authorization: `Bearer ${localStorage.getItem('access_token')}` }
         })

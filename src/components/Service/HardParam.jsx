@@ -35,6 +35,16 @@ export const HardParam = ({id, actionList ,setHardParam, hardData, service_id ,s
     }
   };
  
+  const handleAddParam= async()=>{
+    if (valueInput !== "" && imgSrc !== null){
+      await serviceAdd(imgSrc, service_id, hardData.group_id, hardData.step_id, hardData.step_num, hardData.operation, hardData.description, valueInput, hardData.description)
+      setHardParam(false)
+      setHardSuccess(true)
+      }
+    else {
+      alert("Заполните фото и значение")
+    }
+  }
   return (
     <div>
        <div className="container mt-4">
@@ -140,13 +150,7 @@ export const HardParam = ({id, actionList ,setHardParam, hardData, service_id ,s
             <button
               type="button"
               className="btn btn-success"
-              onClick={()=> {
-                if (valueInput !== "" && imgSrc !== null){
-                serviceAdd(imgSrc, service_id, hardData.group_id, hardData.step_id, hardData.step_num, hardData.operation, hardData.description, valueInput, hardData.description)
-            .then(()=>setHardParam(false)).then(()=>setHardSuccess(true))
-                }
-              else{ alert("Заполните фото и значение")}}}
-            >
+              onClick={handleAddParam}>
               Готово
             </button>
           </div>
@@ -281,6 +285,7 @@ const ActionButtons = ({id, commands}) => {
       const imageSrc = webcamRef.current.getScreenshot();
       setImgSrc(imageSrc);
       setCapturingPhoto(false)
+    
       }
       catch(e){
         alert(e)

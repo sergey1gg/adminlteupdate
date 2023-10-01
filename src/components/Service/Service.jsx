@@ -13,7 +13,7 @@ export const Service =()=>{
     const fetchService = async () => {
         try {
           const response = await serviceList();
-          setServiceData(Array(response))
+          setServiceData(response)
   
         } catch (error) {
           alert(error);

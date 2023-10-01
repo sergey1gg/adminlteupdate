@@ -39,11 +39,13 @@ export const ServiceStart = () => {
       }
 
 }   else{
-  if( checkboxes[item.step_id]){
-  return(
-    setAddModal({param: true, id: serviceData[0]?.service_id, item, type})
-  )
+  if( checkboxes[item.step_id]===true ){
+   setAddModal({param: true, id: serviceData[0]?.service_id, item, type})
   } 
+  else{
+    handleSetHardItem(item.type, item.action_id_list, item)
+  }
+
 }
   };
   const handleSetHardItem=(type, actionList, item)=>{
@@ -162,7 +164,7 @@ export const ServiceStart = () => {
               
             >
             </label>
-            <span className='text-bold' onClick={()=> handleSetHardItem(item.type, item.action_id_list, item)}>{item.description}</span>
+            <span className='text-bold' >{item.operation}</span>
           </div>
         </div>
       </form>
@@ -207,7 +209,7 @@ export const ServiceStart = () => {
    {/* /.container-fluid */}
  </section>
  {finish && <FinishModal service_id={serviceData[0]?.service_id}/>}
- {addModal.param && <AddHardModal data={addModal} handleCheckboxChange={handleCheckboxChange}/>}
+ {addModal.param===true ? <AddHardModal data={addModal} handleCheckboxChange={handleCheckboxChange} setAddModal={setAddModal}/> : null}
  {/* /.content */}
 </div>
   )

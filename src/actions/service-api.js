@@ -64,7 +64,7 @@ export const serviceAdd = async(photo_file, service_id, group_id, item_id, item_
       })
    return response.data.data
   } catch (error) {
-    console.log(error);
+    alert(error);
   }
 };
 export const serviceAddSimple = async(service_id, group_id, item_id, item_step, operation, description) => {

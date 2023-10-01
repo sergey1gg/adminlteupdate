@@ -8,7 +8,7 @@ export const HardParam = ({id, actionList ,setHardParam, hardData, service_id ,s
   const [actionsData, setActionsData]=useState([])
   
   const [capturingPhoto, setCapturingPhoto] = useState(false);
-  const [valueInput, setValueInput]=useState(hardData?.value ? hardData.value : '')
+  const [valueInput, setValueInput]=useState('')
 
   const photoInputRef = useRef(null);
   const [imgSrc, setImgSrc] = useState(null)
@@ -91,22 +91,23 @@ export const HardParam = ({id, actionList ,setHardParam, hardData, service_id ,s
     ):(
           <button
         type="button"
-        className="btn btn-success"
+        className={`btn btn-success  ${imgSrc !==null? "btn-success ": 'btn-danger'}`}
         onClick={()=>  setCapturingPhoto(true)}
       >
         Фото
       </button>
+
     )}
     </div>
         </div>
           
         <div className="col-md-6">
 
-          <div className="form-group mt-3">
-            <label htmlFor="value">Значение</label>
+          <div className={`form-group mt-3 `}>
+            <span htmlFor="value">{hardData.value}</span>
             <input
               type="text"
-              className="form-control"
+              className={`form-control ${valueInput ==="" ? "border border-danger": ''}`}
               id="value"
               value={valueInput ? valueInput : ""}
               onChange={(e)=> setValueInput(e.target.value)}
@@ -139,8 +140,12 @@ export const HardParam = ({id, actionList ,setHardParam, hardData, service_id ,s
             <button
               type="button"
               className="btn btn-success"
-              onClick={()=> serviceAdd(imgSrc, service_id, hardData.group_id, hardData.step_id, hardData.step_num, hardData.operation, hardData.description, valueInput, hardData.description)
-            .then(()=>setHardParam(false)).finally(()=>setHardSuccess(true))}
+              onClick={()=> {
+                if (valueInput !== "" && imgSrc !== null){
+                serviceAdd(imgSrc, service_id, hardData.group_id, hardData.step_id, hardData.step_num, hardData.operation, hardData.description, valueInput, hardData.description)
+            .then(()=>setHardParam(false)).then(()=>setHardSuccess(true))
+                }
+              else{ alert("Заполните фото и значение")}}}
             >
               Готово
             </button>
@@ -295,7 +300,7 @@ const ActionButtons = ({id, commands}) => {
         )}
                 
       <div className="btn-container d-flex justify-content-center bg-black py-2">
-          <button className='btn btn-success' onClick={capture}>Фото</button>
+          <button className={`btn btn-success`} onClick={capture}>Фото</button>
           <button className='btn btn-danger' onClick={()=> setCapturingPhoto(false)}>Закрыть</button>
       </div>
       </div>

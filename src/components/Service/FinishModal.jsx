@@ -24,7 +24,7 @@ export const FinishModal = ({service_id }) => {
             <div className="modal-footer">
               <button type="button" className="btn btn-secondary" data-dismiss="modal">Cancel</button>
               <button type="button" className="btn btn-danger" data-dismiss="modal"
-              onClick={()=> serviceFinish(service_id, comment).then(()=> navigate("/service"))}>Continue</button>
+              onClick={()=> serviceFinish(service_id, comment).then(()=> window.location.href="/service")}>Continue</button>
             </div>
           </div>
         </div>

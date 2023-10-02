@@ -96,7 +96,7 @@ export const HardParam = ({id, actionList ,setHardParam, hardData, service_id ,s
     {imgSrc ?( 
       <>
     <img src={imgSrc} className='img-fluid' />
-    <button className="btn btn-primary" onClick={()=> {setImgSrc(); setCapturingPhoto(true)}}>Переснять</button>
+    <button className="btn btn-primary mt-2" onClick={()=> {setImgSrc(); setCapturingPhoto(true)}}>Переснять</button>
       </>
     ):(
           <button
@@ -139,7 +139,7 @@ export const HardParam = ({id, actionList ,setHardParam, hardData, service_id ,s
           </div>
           */}
           <ActionButtons id={id} commands={actionsData}/>
-          <div className="mt-4">
+          <div className="my-4">
             <button
               type="button"
               className="btn btn-secondary mr-2"

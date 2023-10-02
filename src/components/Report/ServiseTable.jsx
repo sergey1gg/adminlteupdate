@@ -1,9 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import { reportItem } from '../../actions/report-api';
+import $ from 'jquery';
+
 
 export const ServiseTable = ({selectedTable}) => {
     const [serviceTableData, setServiceTableData]=useState()
+
+      
     useEffect(()=>{
+      
         const fetchService = async () => {
             try {
               const response = await reportItem(selectedTable?.service_id);
@@ -15,10 +20,34 @@ export const ServiseTable = ({selectedTable}) => {
           fetchService(); 
     },[])
     console.log(serviceTableData)
+
+    useEffect(() => {
+      if (!$("#example2").hasClass("dataTable")) {
+        $("#example2").DataTable({
+          responsive: false,
+          autoWidth: false,
+        });
+      }
+    
+    }, []);
+  
+  useEffect(() => {
+  if ($("#example2").hasClass("dataTable")) {
+    $("#example2").DataTable().destroy();
+  }
+  
+  if (serviceTableData?.length > 0) {
+    $("#example2").DataTable({
+      responsive: false,
+      autoWidth: false,
+    });
+  }
+  }, [serviceTableData]);
   return (
    <>
+   <div className='table-responsive'>
    <h3>Service id- {selectedTable?.id}, operation - {selectedTable?.user}</h3>
-<table id="example1" className="table table-bordered table-striped">
+<table id="example2" className="table table-bordered table-striped">
                       <thead>
                         <tr>
                           <th>id</th>
@@ -45,6 +74,7 @@ export const ServiseTable = ({selectedTable}) => {
                       </tbody>
                       <tfoot></tfoot>
                     </table>
+                    </div>
                     </>
   )
 }

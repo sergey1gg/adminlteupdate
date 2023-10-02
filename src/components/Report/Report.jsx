@@ -2,6 +2,9 @@ import React, { useEffect, useRef, useState } from 'react'
 import { reportGet } from '../../actions/report-api';
 import { ReportModal } from './ReportModal';
 import { ServiseTable } from './ServiseTable';
+import $ from 'jquery';
+import 'datatables.net-bs4';
+import "datatables.net-responsive-bs4";
 
 export const Report = () => {
   const [reportData, setReportData]=useState()
@@ -11,6 +14,31 @@ export const Report = () => {
   const dateInputRef = useRef(null);
   const [selectedSecondDate, setSelectedSecondDate] = useState('');
   const dateSecondInputRef = useRef(null);
+
+  
+  useEffect(() => {
+    if (!$("#example1").hasClass("dataTable")) {
+      $("#example1").DataTable({
+        responsive: false,
+        autoWidth: false,
+      });
+    }
+  
+  }, []);
+
+useEffect(() => {
+if ($("#example1").hasClass("dataTable")) {
+  $("#example1").DataTable().destroy();
+}
+
+if (reportData?.length > 0) {
+  $("#example1").DataTable({
+    responsive: false,
+    autoWidth: false,
+  });
+}
+}, [reportData]);
+
 
 const handleReport =()=>{
 
@@ -23,7 +51,7 @@ const handleReport =()=>{
         alert(error);
       }
     };
-    if( selectedFirstDate && selectedSecondDate){
+    if( selectedFirstDate){
     fetchService(); 
     }
 
@@ -50,7 +78,7 @@ const handleReport =()=>{
         ref={dateSecondInputRef}
         onChange={()=> setSelectedSecondDate(dateSecondInputRef.current.value)}
       />
-      <button type="button" className="btn btn-success col-md-auto" style={{opacity: selectedFirstDate && selectedSecondDate? '1': '0.5'}}
+      <button type="button" className="btn btn-success col-md-auto" style={{opacity: selectedFirstDate ? '1': '0.5'}}
       onClick={handleReport}>Report</button>
     </div>
       <div className="container-fluid">
@@ -70,9 +98,9 @@ const handleReport =()=>{
             <div className="card">
               {/* /.card-header */}
               <div className="card-body">
-                  <div className="table-responsive">
-                    {selectedTable.step ===1 ?(
-                    <table id="example1" className="table table-bordered table-striped">
+                  <div className={`table-responsive ${selectedTable.step ===1? '': 'd-none'}`}>
+                   
+                    <table id="example1" className={`table table-bordered table-striped `}>
                       <thead>
                         <tr>
                           <th>id</th>
@@ -92,20 +120,23 @@ const handleReport =()=>{
                         <td onClick={()=> setSelectedTable({step:2, service_id: item.service_id, user:item.user_name, id: item.service_id})}>{item.kiosk_name}</td>
                         <td onClick={()=> setSelectedTable({step:2, service_id: item.service_id, user:item.user_name, id: item.service_id})}>{item.Address}</td>
                         <td onClick={()=> setSelectedTable({step:2, service_id: item.service_id, user:item.user_name, id: item.service_id})}>{new Date(item.data_start).toLocaleString()}</td>
-                        <td onClick={()=> setSelectedTable({step:2, service_id: item.service_id, user:item.user_name, id: item.service_id})}>{new Date(item.data_finish).toLocaleString()}</td>
+                        <td onClick={()=> setSelectedTable({step:2, service_id: item.service_id, user:item.user_name, id: item.service_id})}>
+                           {item.data_finish ? new Date(item.data_finish).toLocaleString() : ''}</td>
                         <td onClick={()=> setSelectedTable({step:2, service_id: item.service_id, user:item.user_name, id: item.service_id})}>{item.user_id}</td>
                         <td onClick={()=> setSelectedTable({step:2, service_id: item.service_id, user:item.user_name, id: item.service_id})}>{item.user_name}</td>
                       </tr>
                      ))}
                       </tbody>
                       <tfoot></tfoot>
+                      
                     </table>
-                    ): <ServiseTable selectedTable={selectedTable}/>}
+                   
                   </div>
+                  {selectedTable.step ===2? <ServiseTable selectedTable={selectedTable}/>: null}
               </div>
               {/* /.card-body */}
             </div>
-            {selectedTable.step===2 ? <button type="button" className="btn btn-primary" onClick={()=> setSelectedTable({step: 1})}>Back</button> : null}
+            {selectedTable.step===2 ? <button type="button" className="btn btn-primary my-2" onClick={()=> setSelectedTable({step: 1})}>Back</button> : null}
             {/* /.card */}
           </div>
           {/* /.col */}

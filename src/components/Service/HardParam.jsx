@@ -56,7 +56,7 @@ export const HardParam = ({id, actionList ,setHardParam, hardData, service_id ,s
             alt=""
             className="img-fluid"
           />
-          <p className='text-center'>{hardData.description}</p>
+          <p className='text-center border rounded border-primary'>{hardData.description}</p>
           
           <div className="custom-file">
       

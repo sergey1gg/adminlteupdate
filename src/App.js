@@ -13,6 +13,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Service } from './components/Service/Service';
 import { ServiceStart } from './components/Service/ServiceStart';
 import {Report} from "./components/Report/Report"
+import { Stats } from './components/Stats/Stats';
 function App() {
   const isLoggedIn=useSelector(state=>state.kiosks.isAuth)
   const dispatch=useDispatch()
@@ -49,6 +50,7 @@ function App() {
           <Route path="/service" element={<Service/>}/>
           <Route path="/service/:id" element={<ServiceStart/>}/>
           <Route path="/report" element={<Report/>}/>
+          <Route path="/stats" element={<Stats/>}/>
           </>
         ) : (
           <>

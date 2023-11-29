@@ -71,6 +71,16 @@ export const SideNav = () => {
           </a>
          
         </li>
+        <li className="nav-item has-treeview">
+          <a onClick={()=> {navigate("/stats")}} className="nav-link">
+            <i className="nav-icon fas fa-chart-bar" />
+            <p>
+              Статистика
+             
+            </p>
+          </a>
+         
+        </li>
       </ul>
     </nav>
     {/* /.sidebar-menu */}

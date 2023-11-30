@@ -56,11 +56,17 @@ export const Home = () => {
     const handleSwitchChange = (rowId, checked) => {
       dispatch(switchChange(rowId,checked))
     };
+
+  console.log(tableData)
 const items= tableData?.map((row,index) => (
           <tr key={row.id}>
             <td >{row.id}</td>
             <td onClick={()=> {navigate(`/kiosks/${row.id}`)}}>{row.Name}</td>
             <td onClick={()=> {navigate(`/kiosks/${row.id}`);}}>{row.Address}</td>
+            <td onClick={()=> {navigate(`/kiosks/${row.id}`);}}>{row.last_session}</td>
+            <td onClick={()=> {navigate(`/kiosks/${row.id}`);}}>{row.last_sale}</td>
+            <td onClick={()=> {navigate(`/kiosks/${row.id}`);}}>{row.total_orders}</td>
+            <td onClick={()=> {navigate(`/kiosks/${row.id}`);}}>{row.total_summ}</td>
             <td>
     <div className="custom-control custom-switch">
       <input
@@ -113,6 +119,10 @@ const items= tableData?.map((row,index) => (
                     <th>No</th>
                     <th>Name</th>
                     <th>Address</th>
+                    <th>Last_sess</th>
+                    <th>Last_sale</th>
+                    <th>Total_orders</th>
+                    <th>Total_summ</th>
                     <th>Open/close</th>
                   </tr>
                 </thead>

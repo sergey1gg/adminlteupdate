@@ -24,3 +24,15 @@ export const kiosks_items_report = async(from, to) => {
     console.log(error);
   }
 }
+
+export const kiosks_total_report = async(from, to) => {
+  try {
+    const response = await axios.get(`${server}/kiosk/kiosk_total_report?date_from=${from}&date_to=${to}`,
+      {
+        headers: { Authorization: `Bearer ${localStorage.getItem('access_token')}` }
+      })
+    return response.data.data
+  } catch (error) {
+    console.log(error);
+  }
+}

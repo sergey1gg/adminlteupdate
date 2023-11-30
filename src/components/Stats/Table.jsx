@@ -2,7 +2,11 @@ import React, { useEffect, useState } from 'react'
 import $ from 'jquery';
 import { kiosks_items_report } from '../../actions/stats-api';
 import { PieItemsReport } from './PieItemsReport';
+import { TableTotalReport } from './TableTotalReport';
+import pdfMake from "pdfmake/build/pdfmake";
+import pdfFonts from "pdfmake/build/vfs_fonts";
 
+import * as XLSX from 'xlsx';
 
 export const Table = ({ date }) => {
 
@@ -41,9 +45,56 @@ export const Table = ({ date }) => {
             });
         }
     }, [serviceTableData]);
+
+    const exportToExcel = () => {
+        const ws = XLSX.utils.table_to_sheet(document.getElementById('example1'));
+        const wb = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+
+        // Сохраняем файл
+        XLSX.writeFile(wb, 'table.xlsx');
+    };
+
+    const exportToPDF = () => {
+
+        const table = document.getElementById('example1');
+
+        const tableData = [];
+
+        for (let i = 0; i < table.rows.length; i++) {
+            const row = table.rows[i];
+            const rowData = [];
+
+            for (let j = 0; j < row.cells.length; j++) {
+                const cell = row.cells[j];
+
+                rowData.push(cell.textContent.trim());
+            }
+
+            tableData.push(rowData);
+        }
+
+        const documentDefinition = {
+            content: [
+                {
+                    table: {
+                        body: tableData,
+                    },
+                },
+            ],
+            defaultStyle: {
+                fontSize: 8, // Установите желаемый размер шрифта для всего документа
+            },
+            
+        };
+
+        pdfMake.createPdf(documentDefinition).download('table.pdf');
+    };
     return (
         <>
-            <div className='table-responsive'>
+            <div className='table-responsive' >
+                <button onClick={exportToExcel}>Export to excel </button>
+                <button onClick={exportToPDF}>Export to PDF </button>
                 <table id="example1" className="table table-bordered table-striped">
                     <thead>
                         <tr>
@@ -82,7 +133,8 @@ export const Table = ({ date }) => {
                     <tfoot></tfoot>
                 </table>
             </div>
-            {serviceTableData && <PieItemsReport data={serviceTableData}/>}
+            {serviceTableData && <PieItemsReport data={serviceTableData} />}
+            {serviceTableData && <TableTotalReport date={date} />}
         </>
     )
 }

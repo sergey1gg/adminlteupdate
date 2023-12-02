@@ -48,7 +48,7 @@ export const PieItemsReport = ({ data }) => {
 
       
       const chartData = {
-        labels: nullStatusPercentages.map(entry => `${entry.label} ${entry.totalItems} ${entry.percentage}%`),
+        labels: nullStatusPercentages.map(entry => `${entry.label} (${entry.totalItems}) ${entry.percentage}%`),
         datasets: [{
           data: nullStatusPercentages.map(entry => entry.percentage),
           backgroundColor: nullStatusPercentages.map(generateRandomColor),
@@ -70,7 +70,7 @@ export const PieItemsReport = ({ data }) => {
 
 
       const chartNullData = {
-        labels: notNullStatusPercentages.map(entry => `${entry.label} ${entry.totalItems} ${entry.percentage}%`),
+        labels: notNullStatusPercentages.map(entry => `${entry.label} (${entry.totalItems}) ${entry.percentage}%`),
         datasets: [{
           data: notNullStatusPercentages.map(entry => entry.percentage),
           backgroundColor: notNullStatusPercentages.map(generateRandomColor),
@@ -109,13 +109,13 @@ export const PieItemsReport = ({ data }) => {
       <div className="row">
         <div className="col-md-6 d-flex justify-content-center">
           <div className='w-100'>
-            <span>Null основные продукты</span>
+            <span>Основные продукты</span>
           <canvas ref={chartContainer}  />
           </div>
         </div>
         <div className="col-md-6 d-flex justify-content-center">
         <div className='w-100'>
-        <span>Not Null топпинг</span>
+        <span>Топпинг</span>
           <canvas ref={chartNullContainer} />
           </div>
         </div>

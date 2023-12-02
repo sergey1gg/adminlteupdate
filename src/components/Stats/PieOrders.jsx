@@ -40,7 +40,7 @@ export const PieOrders = ({ data, selectedKiosk, selectedOptions }) => {
     }));
 
     const chartData = {
-      labels: statusCountData.map(entry => `${entry.label} ${entry.totalItems} ${entry.percentage}%`),
+      labels: statusCountData.map(entry => `${entry.label} (${entry.totalItems}) ${entry.percentage}%`),
       datasets: [{
         data: statusCountData.map(entry => entry.percentage),
         backgroundColor: statusCountData.map(generateRandomColor),

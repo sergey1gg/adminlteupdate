@@ -2,8 +2,8 @@ import React, { useState } from 'react'
 import Select from "react-select";
 
 
-export const OptionsSelect = ({data, name, selectedOptions, setSelectedOptions}) => {
-    
+export const OptionsSelect = ({data, name, selectedOptions, setSelectedOptions, disabled}) => {
+
     function handleSelect(data) {
         setSelectedOptions(data);
         
@@ -19,6 +19,7 @@ export const OptionsSelect = ({data, name, selectedOptions, setSelectedOptions})
                     onChange={handleSelect}
                     isSearchable={true}
                     isMulti={true}
+                    isDisabled={disabled}
                 />
             </div>
         </div>

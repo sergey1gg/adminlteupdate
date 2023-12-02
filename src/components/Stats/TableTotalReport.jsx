@@ -36,20 +36,20 @@ export const TableTotalReport = ({date}) => {
             });
         }
     }, [serviceTableData]);
-    console.log(serviceTableData)
   return (
     <>
     <div className='table-responsive'>
         <table id="example2" className="table table-bordered table-striped">
             <thead>
                 <tr>
-                    <th >kiosk_id</th>
-                    <th>kiosk_name</th>
-                    <th>address</th>
-                    <th>status</th>
-                    <th>status_name</th>
-                    <th>orders</th>
-                    <th>summa</th>
+
+                    <th >Id киоска</th>
+                    <th>Имя киоска</th>
+                    <th>Адрес</th>
+                    <th>Id статуса</th>
+                    <th>Имя статуса</th>
+                    <th>Кол-во заказов</th>
+                    <th>Сумма заказов</th>
                 </tr>
             </thead>
             <tbody>

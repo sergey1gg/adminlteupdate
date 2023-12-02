@@ -67,7 +67,7 @@ export const ChartC = ({ data }) => {
         },
       },
     });
-    console.log(kiosks)
+
     // Уничтожаем предыдущий экземпляр графика, если он существует
     return () => {
       myChart.destroy();

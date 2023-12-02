@@ -82,19 +82,19 @@ export const Stats = () => {
     label: value,
     
   }));
- 
+
   return (
     <div className='content-wrapper p-2'>
       <div className='d-flex flex-column flex-md-row ml-0 ml-md-2 align-items-md-center '>
         <DatePicker setDateReq={setDateReq} />
-        <OptionsSelect data={kiosksData} name={"Киоски"} selectedOptions={selectedKiosk} setSelectedOptions={setSelectedKiosk} />
-        <OptionsSelect data={statusData} name={"Операции"} selectedOptions={selectedOperation} setSelectedOptions={setSelectedOperation} />
+        <OptionsSelect data={kiosksData} name={"Киоски"} selectedOptions={selectedKiosk} setSelectedOptions={setSelectedKiosk} disabled={selectedOptions? true: false}/>
+        <OptionsSelect data={statusData} name={"Операции"} selectedOptions={selectedOperation} setSelectedOptions={setSelectedOperation} disabled={selectedOptions? true: false} />
         <Filter selectedData={{ kiosks: selectedKiosk, operations: selectedOperation }} filters={filters} setFilters={setFilters}
           selectedOptions={selectedOptions} setSelectedOptions={setSelectedOptions} />
       </div>
       {data && <ChartC selectedFilter={selectedOptions} selectedKiosk={selectedKiosk} selectedOperation={selectedOperation} data={filteredData? filteredData: data} />}
-      {data && <PieOrders data={data}/>}
-      {data && <Table date={dateReq}/>}
+      {data && <PieOrders data={data} selectedKiosk={selectedKiosk} selectedOptions={selectedOptions}/>}
+      {data && <Table date={dateReq} selectedKiosk={selectedKiosk} selectedOperation={selectedOperation} selectedOptions={selectedOptions} />}
     </div>
   );
 };

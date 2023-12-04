@@ -33,7 +33,7 @@ export const ChartC = ({ data }) => {
       );
 
       const sortedDates = allDates.sort((a, b) => new Date(a) - new Date(b));
-      
+      console.log(kiosks)
       const chartData = {
         labels: sortedDates,
         datasets: Object.values(kiosks).map((kiosk) => ({

@@ -21,13 +21,14 @@ export const Stats = () => {
   useEffect(() => {
     setFilters(JSON.parse(localStorage.getItem("filters")))
   }, [])
-
+console.log(data)
   useEffect(() => {
     async function fetchData() {
       const res = await kiosks_orders_report(dateReq.from, dateReq.to)
       setData(res)
+  
     }
-    if (dateReq.from < dateReq.to && dateReq.to && dateReq.from) {
+    if ((dateReq.from < dateReq.to) || (dateReq.from === dateReq.to) && dateReq.to && dateReq.from) {
       fetchData()
     }
   }, [dateReq])

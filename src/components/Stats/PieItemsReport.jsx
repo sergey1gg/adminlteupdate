@@ -39,7 +39,7 @@ export const PieItemsReport = ({ data }) => {
           label: entry.label,
           percentage: Math.round((entry.value / totalItems) * 100 *10)/10,
           subIdIsNull: entry.subIdIsNull,
-          totalItems: totalItems
+          totalItems: entry.value
         }));
       };
       

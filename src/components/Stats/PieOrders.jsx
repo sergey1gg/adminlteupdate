@@ -36,7 +36,7 @@ export const PieOrders = ({ data, selectedKiosk, selectedOptions }) => {
     const statusCountData = Object.entries(statusCounts).map(([label, value]) => ({
       label,
       percentage: Math.round((value / totalItems) * 100 * 10) / 10,
-      totalItems: totalItems
+      totalItems: value
     }));
 
     const chartData = {

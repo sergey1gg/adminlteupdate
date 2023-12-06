@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import Chart from 'chart.js/auto';
 
-export const ChartC = ({ data }) => {
+export const ChartC = ({ data, dateReq }) => {
   const chartContainer = useRef(null);
 
   useEffect(() => {
@@ -9,7 +9,8 @@ export const ChartC = ({ data }) => {
     const kiosks = {};
 
     data.forEach((order) => {
-      const date = order.datetime.split('T')[0]; // Получаем дату в формате "YYYY-MM-DD"
+
+      const date = dateReq.to !== dateReq.from? order.datetime.split('T')[0]: order.datetime.split('T')[1].split(':')[0]; // Получаем дату в формате "YYYY-MM-DD"
       const kioskName = order.kiosk_name;
     
       if (!kiosks[kioskName]) {
@@ -32,10 +33,24 @@ export const ChartC = ({ data }) => {
         )
       );
 
-      const sortedDates = allDates.sort((a, b) => new Date(a) - new Date(b));
-      console.log(kiosks)
+          const sortedDates = allDates.sort((a, b) => {
+            if (dateReq.to !== dateReq.from) {
+              return new Date(a) - new Date(b);
+            } else {
+              const hourA = parseInt(a, 10);
+              const hourB = parseInt(b, 10);
+          
+              if (hourA === 0) return -1; 
+              if (hourB === 0) return 1; 
+          
+              return hourA - hourB;
+            }
+          });
+          
+          
+      
       const chartData = {
-        labels: sortedDates,
+        labels: allDates,
         datasets: Object.values(kiosks).map((kiosk) => ({
           label: kiosk.label,
           data: sortedDates.map((date) => kiosk.data[date] || 0), 

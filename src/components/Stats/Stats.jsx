@@ -18,6 +18,7 @@ export const Stats = () => {
   const [selectedKiosk, setSelectedKiosk] = useState();
   const [selectedOperation, setSelectedOperation] = useState();
   const [selectedOptions, setSelectedOptions] = useState(); //выбранный фильтр
+
   useEffect(() => {
     setFilters(JSON.parse(localStorage.getItem("filters")))
   }, [])
@@ -87,13 +88,13 @@ export const Stats = () => {
   return (
     <div className='content-wrapper p-2'>
       <div className='d-flex flex-column flex-md-row ml-0 ml-md-2 align-items-md-center '>
-        <DatePicker setDateReq={setDateReq} />
-        <OptionsSelect data={kiosksData} name={"Киоски"} selectedOptions={selectedKiosk} setSelectedOptions={setSelectedKiosk} disabled={selectedOptions? true: false}/>
-        <OptionsSelect data={statusData} name={"Операции"} selectedOptions={selectedOperation} setSelectedOptions={setSelectedOperation} disabled={selectedOptions? true: false} />
+        <DatePicker setDateReq={setDateReq}  />
+        <OptionsSelect dateReq={dateReq} data={kiosksData} name={"Киоски"} selectedOptions={selectedKiosk} setSelectedOptions={setSelectedKiosk} disabled={selectedOptions? true: false}/>
+        <OptionsSelect dateReq={dateReq} data={statusData} name={"Операции"} selectedOptions={selectedOperation} setSelectedOptions={setSelectedOperation} disabled={selectedOptions? true: false} />
         <Filter selectedData={{ kiosks: selectedKiosk, operations: selectedOperation }} filters={filters} setFilters={setFilters}
           selectedOptions={selectedOptions} setSelectedOptions={setSelectedOptions} />
       </div>
-      {data && <ChartC data={filteredData? filteredData: data} dateReq={dateReq}/>}
+      {data && <ChartC data={filteredData? filteredData: data} dateReq={dateReq} />}
       {data && <PieOrders data={data} selectedKiosk={selectedKiosk} selectedOptions={selectedOptions}/>}
       {data && <Table date={dateReq} selectedKiosk={selectedKiosk} selectedOperation={selectedOperation} selectedOptions={selectedOptions} />}
     </div>

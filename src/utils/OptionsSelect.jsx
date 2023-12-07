@@ -1,8 +1,8 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Select from "react-select";
 
 
-export const OptionsSelect = ({data, name, selectedOptions, setSelectedOptions, disabled}) => {
+export const OptionsSelect = ({dateReq, data, name, selectedOptions, setSelectedOptions, disabled}) => {
 
     function handleSelect(data) {
         setSelectedOptions(data);

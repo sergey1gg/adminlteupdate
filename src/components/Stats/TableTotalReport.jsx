@@ -2,7 +2,7 @@ import React, {useEffect, useState } from 'react'
 import $ from 'jquery';
 import { kiosks_total_report } from '../../actions/stats-api';
 
-export const TableTotalReport = ({date}) => {
+export const TableTotalReport = ({date,  selectedKiosk, selectedOptions }) => {
     const [serviceTableData, setServiceTableData] = useState()
     useEffect(() => {
         if ($("#example2").hasClass("dataTable")) {
@@ -14,7 +14,26 @@ export const TableTotalReport = ({date}) => {
         const fetchService = async () => {
             try {
                 const response = await kiosks_total_report(date.from, date.to);
-                setServiceTableData(response)
+                let filteredByOperation = response;
+                if (response) {
+                  if (selectedOptions) {
+                    const filters = JSON.parse(localStorage.getItem("filters")) || [];
+                    const selectedFilter = filters.find((filter) => filter.name === selectedOptions.value);
+            
+                    if (selectedFilter) {
+            
+                      if (selectedFilter?.kiosks) {
+                        filteredByOperation = filteredByOperation.filter((item) =>
+                          selectedFilter.kiosks.some((kiosk) => kiosk.value === item.kiosk_name)
+                        );
+                      }
+                    }
+                  }
+                  else if (selectedKiosk && selectedKiosk.length > 0) {
+                    filteredByOperation = response.filter((item) => selectedKiosk.some((kiosk) => kiosk.value === item.kiosk_name));
+                  }
+                }
+                setServiceTableData(filteredByOperation)
             } catch (error) {
                 alert(error);
             }
@@ -23,7 +42,7 @@ export const TableTotalReport = ({date}) => {
         return () => {
             $("#example2").DataTable().destroy();
         }
-    }, [date])
+    }, [date, selectedKiosk, selectedOptions])
     useEffect(() => {
         if ($("#example2").hasClass("dataTable")) {
             $("#example2").DataTable().destroy();

@@ -12,6 +12,7 @@ export const DatePicker = ({setDateReq}) => {
         startDate={startDate}
         endDate={endDate}
         onChange={(update) => {
+
           setDateReq({from: null, to: null})
           setDateRange(update);
           const startDate = update[0];
@@ -27,9 +28,12 @@ export const DatePicker = ({setDateReq}) => {
             const formattedEndDate = `${endDate.getFullYear()}-${(endDate.getMonth() + 1).toString().padStart(2, '0')}-${endDate.getDate().toString().padStart(2, '0')}`;
             setDateReq((prevDateReq) => ({ ...prevDateReq, to: formattedEndDate }));
           }
+          
 
+            
         }}
         isClearable={true}
+        
       />
       </div>
     );

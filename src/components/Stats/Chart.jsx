@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import Chart from 'chart.js/auto';
 
-export const ChartC = ({ data, dateReq }) => {
+export const ChartC = ({ data, dateReq, setSelectedKiosk, setSelectedOperation, setSelectedOptions }) => {
   const chartContainer = useRef(null);
 
   useEffect(() => {
@@ -87,7 +87,7 @@ export const ChartC = ({ data, dateReq }) => {
     return () => {
       myChart.destroy();
     };
-  }, [data]);
+  }, [data, dateReq]);
   
   return <canvas ref={chartContainer} />;
 };

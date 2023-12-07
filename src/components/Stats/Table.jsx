@@ -181,7 +181,7 @@ export const Table = ({ date, selectedKiosk, selectedOperation, selectedOptions 
                                 <td>{item.price}</td>
                                 <td>{item.status}</td>
                                 <td>{item.status_name}</td>
-                                <td>{new Date(item.datetime).toLocaleString()}</td>
+                                <td>{item.datetime.split("T").join(", ").split(".")[0]}</td>
                                 <td>{item.mass}</td>
                                 <td>{item.promo}</td>
                             </tr>

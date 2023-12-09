@@ -4,7 +4,7 @@ import { kiosks_items_report } from '../../actions/stats-api';
 import { PieItemsReport } from './PieItemsReport';
 import { TableTotalReport } from './TableTotalReport';
 import pdfMake from "pdfmake/build/pdfmake";
-
+import pdfFonts from "pdfmake/build/vfs_fonts";
 
 import * as XLSX from 'xlsx';
 
